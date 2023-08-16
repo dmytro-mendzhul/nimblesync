@@ -1,6 +1,6 @@
-# nimblesync
+# [Test-task] NimbleSync
 
-This project was generated using fastapi_template.
+Simple FastAPI service for contacts keeping that synchronizes with [Nimble API](https://nimble.readthedocs.io/en/latest/contacts/basic/list/).
 
 ## Poetry
 
