@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile
+      target: prod
+    image: nimblesync:${NIMBLESYNC_VERSION:-latest}
+    restart: always
+    env_file:
+    - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NIMBLESYNC_HOST: 0.0.0.0
+      NIMBLESYNC_DB_HOST: nimblesync-db
+      NIMBLESYNC_DB_PORT: 5432
+      NIMBLESYNC_DB_USER: nimblesync
+      NIMBLESYNC_DB_PASS: nimblesync
+      NIMBLESYNC_DB_BASE: nimblesync
+
+  db:
+    image: postgres:13.8-bullseye
+    hostname: nimblesync-db
+    environment:
+      POSTGRES_PASSWORD: "nimblesync"
+      POSTGRES_USER: "nimblesync"
+      POSTGRES_DB: "nimblesync"
+    ports:
+      - '5432:5432'
+    volumes:
+    - nimblesync-db-data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: pg_isready -U nimblesync
+      interval: 2s
+      timeout: 3s
+      retries: 40
+
+
+
+volumes:
+  nimblesync-db-data:
+    name: nimblesync-db-data
+    driver: local

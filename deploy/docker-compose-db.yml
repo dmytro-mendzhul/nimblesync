@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:13.8-bullseye
+    hostname: nimblesync-db
+    environment:
+      POSTGRES_PASSWORD: "nimblesync"
+      POSTGRES_USER: "nimblesync"
+      POSTGRES_DB: "nimblesync"
+    ports:
+      - '5432:5432'
+    volumes:
+    - nimblesync-db-data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: pg_isready -U nimblesync
+      interval: 2s
+      timeout: 3s
+      retries: 40
+
+
+
+volumes:
+  nimblesync-db-data:
+    name: nimblesync-db-data
+    driver: local
