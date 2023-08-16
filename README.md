@@ -1,6 +1,7 @@
 # [Test-task] NimbleSync
 
 Simple FastAPI service for contacts keeping that synchronizes with [Nimble API](https://nimble.readthedocs.io/en/latest/contacts/basic/list/).
+<br>It stores contacts data on PostgreSQL database (Psycopg 3 used), automatically seeds contacts from .csv file and updates it each day from Nimble API. 
 
 ## Poetry
 
